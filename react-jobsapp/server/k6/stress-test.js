@@ -11,7 +11,7 @@ export const options = {
 };
 
 export default () => {
-  const urlRes = http.get('http://localhost:5132/api/jobs');
+  const urlRes = http.get('http://localhost:8787/api/jobs');
   sleep(1);
   check(urlRes, {
     'status is 200': (r) => r.status === 200,
