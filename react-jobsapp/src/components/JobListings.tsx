@@ -1,4 +1,3 @@
-// import { useState, useEffect } from "react";
 import JobData from "../data/jobs.json";
 import { Job } from "../types/Job";
 import JobCard from "./JobCard";

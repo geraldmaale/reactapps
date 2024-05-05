@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Job } from "../types/Job";
 import { FaMapMarker } from "react-icons/fa";
