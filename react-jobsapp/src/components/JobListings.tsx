@@ -4,6 +4,9 @@ import { Job } from "../types/Job";
 import JobCard from "./JobCard";
 import { Skeleton } from "@/components/ui/skeleton";
 
+const url = import.meta.env.VITE_API_URL;
+console.log(url);
+
 const JobListings = ({ isHome = false }) => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
@@ -13,7 +16,7 @@ const JobListings = ({ isHome = false }) => {
     const jobListings = async () => {
       try {
         if (useApi) {
-          let jobs = await fetch("/api/jobs").then(
+          let jobs = await fetch(`${url}/api/jobs`).then(
             (res) => res.json() as Promise<Job[]>
           );
 
