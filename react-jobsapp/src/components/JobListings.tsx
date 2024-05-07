@@ -19,7 +19,7 @@ async function getJobListings(useApi: boolean, isHome: boolean) {
   }
 }
 
-function groupOptions(useApi: boolean, isHome: boolean) {
+function getJobsQuery(useApi: boolean, isHome: boolean) {
   return queryOptions({
     queryKey: ["all-jobs", { useApi, isHome }],
     queryFn: () => getJobListings(useApi, isHome),
@@ -28,7 +28,7 @@ function groupOptions(useApi: boolean, isHome: boolean) {
 }
 
 const JobListings = ({ useApi = true, isHome = false }) => {
-  const { data, error, isPending } = useQuery(groupOptions(useApi, isHome));
+  const { data, error, isPending } = useQuery(getJobsQuery(useApi, isHome));
 
   const renderError = () => {
     return (

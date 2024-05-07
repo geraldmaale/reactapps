@@ -23,12 +23,22 @@ type Job = z.infer<typeof jobSchema>;
 
 export const jobsRoute = new Hono()
   .get("/:id{[0-9]+}", (c) => {
-    const jobId = c.req.param("id");
-    const job: Job | undefined = jobs.find((j) => j.id === Number(jobId));
-    if (job) {
-      return c.json(job);
-    } else {
-      return c.json({ message: "Job not found" }, 404);
+    try {
+      const jobId = c.req.param("id");
+      const job: Job | undefined = jobs.find((j) => j.id === Number(jobId));
+
+      const a = 2 / 1;
+      if (a === Infinity) {
+        throw new Error("a is infinity");
+      }
+      if (job) {
+        return c.json(job);
+      } else {
+        return c.json({ message: "Job not found" }, 404);
+      }
+    } catch (error) {
+      console.error(error);
+      return c.json({ message: "Internal server error" }, 500);
     }
   })
   .get("/", async (c) => {

@@ -1,9 +1,11 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+
 import NavBar from "@/components/NavBar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NotFound from "@/components/NotFound";
+import ErrorPage from "@/components/Error";
 
 export const Route = createRootRoute({
   component: () => (
@@ -15,4 +17,5 @@ export const Route = createRootRoute({
     </>
   ),
   notFoundComponent: NotFound,
+  errorComponent: () => <ErrorPage />,
 });

@@ -1,34 +1,32 @@
-import {
-  createFileRoute,
-  useNavigate,
-  useLoaderData,
-  Link,
-} from "@tanstack/react-router";
+import { createFileRoute, useLoaderData, Link } from "@tanstack/react-router";
 import { FaArrowLeft, FaMapMarker } from "react-icons/fa";
 import { Job } from "@/types/Job";
-import JobData from "@/data/jobs.json";
 import { toast } from "react-toastify";
+import ErrorPage from "@/components/Error";
+
+const url = import.meta.env.VITE_API_URL;
 
 export const Route = createFileRoute("/jobs/$ids")({
   component: GetJobByIdComponent,
   loader: async ({ params }) => findJob(params.ids),
+  errorComponent: ErrorPage,
 });
 
 async function findJob(ids: string) {
-  const job = JobData.jobs.find((job) => job.id === Number(ids));
-  return job as Job;
+  try {
+    const response = fetch(`${url}/api/jobs/${ids}`).then((res) => res.json());
+    return (await response) as Job;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
+const onDeleteClick = (id: number) => {
+  toast.success(`Job ${id} deleted successfully!`);
+};
+
 function GetJobByIdComponent() {
-  const navigate = useNavigate();
   const job = useLoaderData({ from: "/jobs/$ids" });
-
-  const onDeleteClick = (id: number) => {
-    toast.success(`Job ${id} deleted successfully!`);
-
-    // Redirect to jobs page
-    return navigate({ to: "/jobs" });
-  };
 
   return (
     <>
