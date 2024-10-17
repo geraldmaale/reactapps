@@ -60,26 +60,44 @@ const JobsIdsRoute = JobsIdsImport.update({
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
     '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
     '/add-job': {
+      id: '/add-job'
+      path: '/add-job'
+      fullPath: '/add-job'
       preLoaderRoute: typeof AddJobLazyImport
       parentRoute: typeof rootRoute
     }
     '/jobs/$ids': {
+      id: '/jobs/$ids'
+      path: '/jobs/$ids'
+      fullPath: '/jobs/$ids'
       preLoaderRoute: typeof JobsIdsImport
       parentRoute: typeof rootRoute
     }
     '/jobs/add': {
+      id: '/jobs/add'
+      path: '/jobs/add'
+      fullPath: '/jobs/add'
       preLoaderRoute: typeof JobsAddImport
       parentRoute: typeof rootRoute
     }
     '/jobs/': {
+      id: '/jobs/'
+      path: '/jobs'
+      fullPath: '/jobs'
       preLoaderRoute: typeof JobsIndexImport
       parentRoute: typeof rootRoute
     }
@@ -88,13 +106,106 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren([
-  IndexRoute,
-  AboutRoute,
-  AddJobLazyRoute,
-  JobsIdsRoute,
-  JobsAddRoute,
-  JobsIndexRoute,
-])
+export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/add-job': typeof AddJobLazyRoute
+  '/jobs/$ids': typeof JobsIdsRoute
+  '/jobs/add': typeof JobsAddRoute
+  '/jobs': typeof JobsIndexRoute
+}
+
+export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/add-job': typeof AddJobLazyRoute
+  '/jobs/$ids': typeof JobsIdsRoute
+  '/jobs/add': typeof JobsAddRoute
+  '/jobs': typeof JobsIndexRoute
+}
+
+export interface FileRoutesById {
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/add-job': typeof AddJobLazyRoute
+  '/jobs/$ids': typeof JobsIdsRoute
+  '/jobs/add': typeof JobsAddRoute
+  '/jobs/': typeof JobsIndexRoute
+}
+
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '/about' | '/add-job' | '/jobs/$ids' | '/jobs/add' | '/jobs'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '/about' | '/add-job' | '/jobs/$ids' | '/jobs/add' | '/jobs'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/add-job'
+    | '/jobs/$ids'
+    | '/jobs/add'
+    | '/jobs/'
+  fileRoutesById: FileRoutesById
+}
+
+export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  AddJobLazyRoute: typeof AddJobLazyRoute
+  JobsIdsRoute: typeof JobsIdsRoute
+  JobsAddRoute: typeof JobsAddRoute
+  JobsIndexRoute: typeof JobsIndexRoute
+}
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  AddJobLazyRoute: AddJobLazyRoute,
+  JobsIdsRoute: JobsIdsRoute,
+  JobsAddRoute: JobsAddRoute,
+  JobsIndexRoute: JobsIndexRoute,
+}
+
+export const routeTree = rootRoute
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 /* prettier-ignore-end */
+
+/* ROUTE_MANIFEST_START
+{
+  "routes": {
+    "__root__": {
+      "filePath": "__root.tsx",
+      "children": [
+        "/",
+        "/about",
+        "/add-job",
+        "/jobs/$ids",
+        "/jobs/add",
+        "/jobs/"
+      ]
+    },
+    "/": {
+      "filePath": "index.tsx"
+    },
+    "/about": {
+      "filePath": "about.tsx"
+    },
+    "/add-job": {
+      "filePath": "add-job.lazy.tsx"
+    },
+    "/jobs/$ids": {
+      "filePath": "jobs/$ids.tsx"
+    },
+    "/jobs/add": {
+      "filePath": "jobs/add.tsx"
+    },
+    "/jobs/": {
+      "filePath": "jobs/index.tsx"
+    }
+  }
+}
+ROUTE_MANIFEST_END */
